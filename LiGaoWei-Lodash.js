@@ -1,5 +1,5 @@
 var LiGaoWei = {
-  function chunk(arr, n) {
+  chunk: function(arr, n) {
     var x = Math.ceil(arr.length / n)
     var result = new Array(x);
     for (var i = 0; i < x; i++) {
