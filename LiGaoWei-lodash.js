@@ -10,4 +10,27 @@ var LiGaoWei = {
     }
     return result
   },
+  compact: function(array) {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      if (array[i]) {
+        result.push(array[i])
+      }
+    }
+    return result
+  },
+  concat: function(array, other) {
+    debugger;
+    var newArray = []
+    for (i = 0; i < arguments.length; i++) {
+      if (typeof arguments[i] == "object") {
+        for (j = 0; j < arguments[i].length; j++) {
+          newArray.push(arguments[i][j])
+        }
+      } else {
+        newArray.push(arguments[i])
+      }
+    }
+    return newArray
+  },
 }
