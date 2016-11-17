@@ -120,7 +120,6 @@ var LiGaoWei = {
       - => [1, 2, 3]
    **/
   drop: function(array, n) {
-    debugger
     var newArray = []
     var x = newArray.length
     if (n == 1 || n == undefined) {
@@ -158,6 +157,38 @@ var LiGaoWei = {
       - => [1, 2, 3]
    **/
   dropRight: function(array, n) {
+    var newArray = []
+    if (n == undefined) {
+      n = 1
+    }
+    for (var i = 0; i < array.length - n; i++) {
+      newArray.push(array[i])
+    }
+    return newArray
+  },
 
-  }
+  /**
+   * 作用:
+      -创建一个array数组，使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）.
+   * 参数:
+      -array:需要处理的数组;
+      -value:填充给array的值.
+   * 返回值
+      -array
+   * 例子:
+      - var array = [1, 2, 3];
+      - .fill(array, 'a');
+      - console.log(array);
+      - => ['a', 'a', 'a']
+      - .fill(Array(3), 2);
+      - => [2, 2, 2] 
+      - .fill([4, 6, 8, 10], '*', 1, 3);
+      - => [4, '*', '*', 10]
+   **/
+  fill: function(array, value) {
+
+  },
+
+
+
 }
