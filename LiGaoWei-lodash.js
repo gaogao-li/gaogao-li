@@ -101,4 +101,63 @@ var LiGaoWei = {
     return newArray
   },
 
+  /**
+   * 作用:
+      -创建一个array数组，删除数组中前n项并把剩余值输出到新的数组.
+   * 参数:
+      -array:需要处理的数组;
+      -n:删除数量.
+   * 返回值
+      -newArray:返回一个剔除前n项的新数组.
+   * 例子:
+      - .drop([1, 2, 3]);
+      - => [2, 3] 
+      - .drop([1, 2, 3], 2);
+      - => [3] 
+      - .drop([1, 2, 3], 5);
+      - => [] 
+      - .drop([1, 2, 3], 0);
+      - => [1, 2, 3]
+   **/
+  drop: function(array, n) {
+    debugger
+    var newArray = []
+    var x = newArray.length
+    if (n == 1 || n == undefined) {
+      array.splice(0, 1)
+      newArray = array.slice()
+    } else {
+      for (var i = n;; i--) {
+        if (i > 0) {
+          array.splice(0, 1)
+          newArray = array.slice()
+        } else {
+          break;
+        }
+      }
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      -创建一个array数组，删除数组中后n项并把剩余值输出到新的数组.
+   * 参数:
+      -array:需要处理的数组;
+      -n:删除数量.
+   * 返回值
+      -newArray:返回一个剔除后n项的新数组.
+   * 例子:
+      - .dropRight([1, 2, 3]);
+      - => [1, 2]
+      - .dropRight([1, 2, 3], 2);
+      - => [1]
+      - .dropRight([1, 2, 3], 5);
+      - => []
+      - .dropRight([1, 2, 3], 0);
+      - => [1, 2, 3]
+   **/
+  dropRight: function(array, n) {
+
+  }
 }
