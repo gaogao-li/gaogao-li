@@ -61,7 +61,6 @@ var LiGaoWei = {
       - => [1]
    **/
   concat: function(array, other) {
-    debugger;
     var newArray = []
     for (i = 0; i < arguments.length; i++) {
       if (typeof arguments[i] == "object") {
@@ -91,11 +90,15 @@ var LiGaoWei = {
     var newArray = []
     for (var i = 0; i < array.length; i++) {
       for (var j = 0; j < values.length; j++) {
-        if ((array[i].toString()) !== (values[j].toString())) {
-          newArray.push(array[i])
+        if (array[i] == values[j]) {
+          array[i] = false
         }
+      }
+      if (array[i] != false) {
+        newArray.push(array[i])
       }
     }
     return newArray
   },
+
 }
