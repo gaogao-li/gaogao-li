@@ -215,10 +215,10 @@ var LiGaoWei = {
     for (var i = 0; i < array.length; i++) {
       if (typeof array[i] == "object") {
         for (var j = 0; j < array[i].length; j++) {
-          newArray[i] = array[i][j]
+          newArray.push(array[i][j])
         }
       } else {
-        newArray[i] = array[i]
+        newArray.push(array[i])
       }
     }
     return newArray
