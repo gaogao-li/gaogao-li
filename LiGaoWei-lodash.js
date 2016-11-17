@@ -185,8 +185,43 @@ var LiGaoWei = {
       - .fill([4, 6, 8, 10], '*', 1, 3);
       - => [4, '*', '*', 10]
    **/
-  fill: function(array, value) {
+  fill: function(array, value, start, end) {
+    if (start == undefined) {
+      var start = 0
+    }
+    if (end == undefined) {
+      var end = array.length
+    }
+    for (var i = start; i < end; i++) {
+      array[i] = value
+    }
+    return array
+  },
 
+  /**
+   * 作用:
+      -减少一级数组嵌套深度.
+   * 参数:
+      -array:需要处理的数组;
+   * 返回值
+      -newArray:返回一个减少后的新数组.
+   * 例子:
+      - .flatten([1, [2, [3, [4]], 5]]);
+      - => [1, 2, [3, [4]], 5]
+   **/
+  flatten: function(array) {
+    debugger;
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      if (typeof array[i] == "object") {
+        for (var j = 0; j < array[i].length; j++) {
+          newArray[i] = array[i][j]
+        }
+      } else {
+        newArray[i] = array[i]
+      }
+    }
+    return newArray
   },
 
 
