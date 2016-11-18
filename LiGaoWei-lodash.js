@@ -1,6 +1,115 @@
 var LiGaoWei = {
   /**
    * 作用:
+      -创建一个数组是迭代函数遍历fn（集合）中的每个元素后返回的结果.
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代是调用的函数.
+   * 返回值
+      -返回新的映射后数组.
+   * 例子:
+      - function square(n) {
+          return n * n;
+        }
+      - .map([4, 8], square);
+        => [16, 64]
+      - .map({ 'a': 4, 'b': 8 }, square);
+        => [16, 64] (iteration order is not guaranteed)
+      - var users = [
+          { 'user': 'barney' },
+          { 'user': 'fred' }
+        ];
+      - The `_.property` iteratee shorthand.
+        .map(users, 'user');
+        => ['barney', 'fred']
+   **/
+  map: function(array, fn) {
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      newArray.push(fn(array[i], i, array))
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      -创建一个数组是迭代函数遍历fn（集合）返回正确的值.
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代是调用的函数.
+   * 返回值
+      -返回新的映射后数组.
+   * 例子:
+      - var users = [
+          { 'user': 'barney', 'age': 36, 'active': true },
+          { 'user': 'fred',   'age': 40, 'active': false }
+        ];         
+      - .filter(users, function(o) { return !o.active; });
+      - => objects for ['fred']         
+      - The `_.matches` iteratee shorthand.
+      - .filter(users, { 'age': 36, 'active': true });
+      - => objects for ['barney']         
+      - The `_.matchesProperty` iteratee shorthand.
+      - .filter(users, ['active', false]);
+      - => objects for ['fred']         
+      - The `_.property` iteratee shorthand.
+      - .filter(users, 'active');
+      - => objects for ['barney']
+   **/
+  filter: function(array, fn) {
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      if (fn(array[i], i, array)) {
+        newArray.push(array[i])
+      }
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      -创建一个分成两组的元素数组，第一组包含断言函数返回为 true（真值）的元素，
+       第二组包含predicate（断言函数）返回为 false（假值）的元素.
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代是调用的函数.
+   * 返回值
+      -返回新的映射后数组.
+   * 例子:
+      - var users = [
+          { 'user': 'barney',  'age': 36, 'active': false },
+          { 'user': 'fred',    'age': 40, 'active': true },
+          { 'user': 'pebbles', 'age': 1,  'active': false }
+        ]; 
+      - .partition(users, function(o) { return o.active; });
+      - => objects for [['fred'], ['barney', 'pebbles']]         
+      - The `_.matches` iteratee shorthand.
+      - .partition(users, { 'age': 1, 'active': false });
+      - => objects for [['pebbles'], ['barney', 'fred']]         
+      - The `_.matchesProperty` iteratee shorthand.
+      - .partition(users, ['active', false]);
+      - => objects for [['barney', 'pebbles'], ['fred']]         
+      - The `_.property` iteratee shorthand.
+      - .partition(users, 'active');
+      - => objects for [['fred'], ['barney', 'pebbles']]
+   **/
+  partition: function(array, fn) {
+    var newArray = [
+      [][]
+    ]
+    for (var i = 0; i < array.length; i++) {
+      if (fn(array[i], i, array)) {
+        newArray[0].push(array[i])
+      } else {
+        newArray[1].push(array[i])
+      }
+    }
+    return newArray
+  },
+
+
+  /**
+   * 作用:
       -将数组(arr)拆分成多个n长度的区块后组成新数组.
    * 参数:
       -arr:需要处理的数组;
@@ -210,7 +319,6 @@ var LiGaoWei = {
       - => [1, 2, [3, [4]], 5]
    **/
   flatten: function(array) {
-    debugger;
     var newArray = []
     for (var i = 0; i < array.length; i++) {
       if (typeof array[i] == "object") {
@@ -224,6 +332,45 @@ var LiGaoWei = {
     return newArray
   },
 
+  /**
+   * 作用:
+      -递归为一维数组.
+   * 参数:
+      -array:需要处理的数组;
+   * 返回值
+      -newArray:返回一个新数组.
+   * 例子:
+      - .flattenDeep([1, [2, [3, [4]], 5]]);
+      - => [1, 2, 3, 4, 5]
+   **/
+  flattenDeep: function(array) {
+    debugger;
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      if (typeof array[i] !== "object" && typeof array[i] !== undefined) {
+        mArray.push(array[i])
+      } else if (typeof array[i] == "object") {
+        LiGaoWei.flattenDeep(nArray)
+      }
+    }
+    return newArray
+  },
+
+
+  /**
+   * 作用:
+      -返回一个由键值对pairs构成的对象.
+   * 参数:
+      -pairs:键值对;
+   * 返回值
+      -返回一个新对象.
+   * 例子:
+      - .fromPairs([['fred', 30], ['barney', 40]]);
+      - => { 'fred': 30, 'barney': 40 }
+   **/
+  fromPairs: function(pairs) {
+
+  },
 
 
 }
