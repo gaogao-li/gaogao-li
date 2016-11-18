@@ -36,7 +36,7 @@ var LiGaoWei = {
       -创建一个数组是迭代函数遍历fn（集合）返回正确的值.
    * 参数:
       -array:用来迭代的集合;
-      -fn:迭代是调用的函数.
+      -fn:迭代时调用的函数.
    * 返回值
       -返回新的映射后数组.
    * 例子:
@@ -72,7 +72,7 @@ var LiGaoWei = {
        第二组包含predicate（断言函数）返回为 false（假值）的元素.
    * 参数:
       -array:用来迭代的集合;
-      -fn:迭代是调用的函数.
+      -fn:迭代时调用的函数.
    * 返回值
       -返回新的映射后数组.
    * 例子:
@@ -107,6 +107,125 @@ var LiGaoWei = {
     }
     return newArray
   },
+
+  /**
+   * 作用:
+      -通过 fn(断言函数)检查 array（集合）中的 所有 元素是否都返回真值;
+       一旦返回假值，迭代就马上停.
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代时调用的函数.
+   * 返回值
+      -所有值返回真值,那么返回true,否则返回false.
+   * 例子:
+      - .every([true, 1, null, 'yes'], Boolean);
+      - => false
+   **/
+  every: function(array, fn) {
+    var newArray
+    for (var i = 0; i < array.length; i++) {
+      if (fn(array[i], i, array)) {
+        newArray = true
+      } else {
+        newArray = false
+        break
+      }
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      -通过fn检查array（集合）中的元素是否存在任意true（真值）的元素，
+       一旦 发现立刻 返回 true（真值）并停止.
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代时调用的函数.
+   * 返回值
+      -任意值返回真值,那么返回true,否则返回false.
+   * 例子:
+      - .some([null, 0, 'yes', false], Boolean);
+      - => true
+   **/
+  some: function(array, fn) {
+    var newArray
+    for (var i = 0; i < array.length; i++) {
+      if (fn(array[i], i, array)) {
+        newArray = true
+        break
+      }
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      -返回 fn（断言函数）不返回truthy（真值）的array（集合）元素
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代时调用的函数.
+   * 返回值
+      -过滤后的新数组.
+   * 例子:
+      - var users = [
+          { 'user': 'barney', 'age': 36, 'active': false },
+          { 'user': 'fred',   'age': 40, 'active': true }
+        ]; 
+      - .reject(users, function(o) { return !o.active; });
+      - => objects for ['fred']
+      - // `_.matches` 迭代简写
+      - .reject(users, { 'age': 40, 'active': true });
+      - => objects for ['barney']
+      - // `_.matchesProperty` 迭代简写
+      - .reject(users, ['active', false]);
+      - => objects for ['fred'] 
+      - // `_.property` 迭代简写
+      - .reject(users, 'active');
+      - => objects for ['barney']
+   **/
+  reject: function(array, fn) {
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      if (!fn(array[i], i, array)) {
+        newArray.push(array[i])
+      }
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      -压缩 array为一个值，通过fn遍历 array中的每个元素，每次返回的值会作为下一次迭代使用
+   * 参数:
+      -array:用来迭代的集合;
+      -fn:迭代时调用的函数.
+      -inital:初始值
+   * 返回值
+      -返回累加后的值.
+   * 例子:
+      - .reduce([1, 2], function(sum, n) {
+          return sum + n;
+        }, 0);
+      - => 3       
+      - .reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+          (result[value] || (result[value] = [])).push(key);
+          return result;
+        }, {});
+      - => { '1': ['a', 'c'], '2': ['b'] } (无法保证遍历的顺序)
+   **/
+  reduce: function(array, fn, inital) {
+    var start = 0
+    if (inital == undefined) {
+      inital = array[0]
+      start = 1
+    }
+    var newArray = inital
+    for (var i = start; i < array.length; i++) {
+      newArray = fn(newArray, array[i])
+    }
+    return newArray
+  },
+
 
 
   /**
@@ -356,7 +475,6 @@ var LiGaoWei = {
     }
     return newArray
   },
-
 
   /**
    * 作用:
