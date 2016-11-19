@@ -226,6 +226,38 @@ var LiGaoWei = {
     return newArray
   },
 
+  /**
+   * 作用:
+      -检查value(值)是否在collection(集合)中,如果collection(集合)是一个字符串,
+       那么检查value（值，子字符串）是否在字符串中,
+   * 参数:
+      -collection:要检索的集合;
+      -value:要检索的值.
+      -number:开始值
+   * 返回值
+      -如果找到相同值返回true,否则返回false.
+   * 例子:
+      - .includes([1, 2, 3], 1);
+      - => true       
+      - .includes([1, 2, 3], 1, 2);
+      - => false      
+      - .includes({ 'user': 'fred', 'age': 40 }, 'fred');
+      - => true      
+      - .includes('pebbles', 'eb');
+      - => true
+   **/
+  includes: function(collection, value, number) {
+    var start = 0
+    if (number == undefined) {
+      number = 0
+    }
+    if (collection.indexOf(value, number) != -1) {
+      return true
+    } else {
+      return false
+    }
+  },
+
 
 
   /**
