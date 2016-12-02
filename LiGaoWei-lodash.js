@@ -552,19 +552,66 @@ var LiGaoWei = {
    **/
   differenceBy: function(array, values, fn) {
     debugger;
+    var result = []
     var newArray = []
+    var newValues = []
+    var fnc = fn
+    if (typeof fn == "string") {
+      fnc = function(obj) {
+        return obj[fn]
+      }
+    }
     for (var i = 0; i < array.length; i++) {
-      for (var j = 0; j < values.length; j++) {
-        if (fn(array[i]) == fn(values[j])) {
-          array[i] = false
+      newArray.push(fnc(array[i]))
+    }
+    for (var i = 0; i < values.length; i++) {
+      newValues.push(fnc(values[i]))
+    }
+    for (var i = 0; i < newArray.length; i++) {
+      var arr = true
+      for (var j = 0; j < newValues.length; j++) {
+        if (newArray[i] == newValues[j]) {
+          arr = false
         }
       }
-      if (array[i]) {
+      if (arr) {
+        result.push(array[i])
+      }
+    }
+    return result
+  },
+
+  /**
+   * 作用:
+      - 接受一个comparator，它调用比较array，values中的元素,返回一个不含相同值的新数组。 
+   * 参数:
+      -array:要检查的数组;
+      -values:排除的值;
+      -fn:调用的函数
+   * 返回值
+      -返回一个过滤后的新数组.
+   * 例子:
+      -var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }]; 
+      -.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
+      -// => [{ 'x': 2, 'y': 1 }]
+   **/
+  differenceWith: function(array, values, fn) {
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      var arr = true
+      for (var j = 0; j < values.length; j++) {
+        if (fn(array[i]) == fn(values[j])) {
+          arr = false
+        }
+      }
+      if (arr) {
         newArray.push(array[i])
       }
     }
     return newArray
   },
+
+
 
   /**
    * 作用:
