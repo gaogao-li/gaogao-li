@@ -551,7 +551,6 @@ var LiGaoWei = {
       - => [{ 'x': 2 }]
    **/
   differenceBy: function(array, values, fn) {
-    debugger;
     var result = []
     var newArray = []
     var newValues = []
@@ -595,21 +594,21 @@ var LiGaoWei = {
       -.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
       -// => [{ 'x': 2, 'y': 1 }]
    **/
-  differenceWith: function(array, values, fn) {
-    var newArray = []
-    for (var i = 0; i < array.length; i++) {
-      var arr = true
-      for (var j = 0; j < values.length; j++) {
-        if (fn(array[i]) == fn(values[j])) {
-          arr = false
-        }
-      }
-      if (arr) {
-        newArray.push(array[i])
-      }
-    }
-    return newArray
-  },
+  // differenceWith: function(array, values, fn) {
+  //   var newArray = []
+  //   for (var i = 0; i < array.length; i++) {
+  //     var arr = true
+  //     for (var j = 0; j < values.length; j++) {
+  //       if (fn(array[i]) == fn(values[j])) {
+  //         arr = false
+  //       }
+  //     }
+  //     if (arr) {
+  //       newArray.push(array[i])
+  //     }
+  //   }
+  //   return newArray
+  // },
 
 
 
