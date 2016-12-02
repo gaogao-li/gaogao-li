@@ -121,17 +121,27 @@ var LiGaoWei = {
       - .every([true, 1, null, 'yes'], Boolean);
       - => false
    **/
-  every: function(array, fn) {
-    var newArray
-    for (var i = 0; i < array.length; i++) {
-      if (fn(array[i], i, array)) {
-        newArray = true
-      } else {
-        newArray = false
-        break
+  every: function(collection, fn) {
+    if (!fn) {
+      fn = function(a) {
+        return a
       }
     }
-    return newArray
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        if (!fn(collection[i], i, collection)) {
+          return false
+        }
+      }
+      return true
+    } else {
+      for (var key in collection) {
+        if (!fn(collection[key], key, collection)) {
+          return false
+        }
+      }
+      return true
+    }
   },
 
   /**
@@ -381,22 +391,13 @@ var LiGaoWei = {
       - => [1, 2, 3]
    **/
   drop: function(array, n) {
-    var newArray = []
-    var x = newArray.length
-    if (n == 1 || n == undefined) {
-      array.splice(0, 1)
-      newArray = array.slice()
-    } else {
-      for (var i = n;; i--) {
-        if (i > 0) {
-          array.splice(0, 1)
-          newArray = array.slice()
-        } else {
-          break;
-        }
-      }
+    if (n == undefined) {
+      array.shift()
     }
-    return newArray
+    for (var i = 0; i < n; i++) {
+      array.shift()
+    }
+    return array
   },
 
   /**
@@ -496,14 +497,20 @@ var LiGaoWei = {
       - => [1, 2, 3, 4, 5]
    **/
   flattenDeep: function(array) {
-    debugger;
     var newArray = []
+    var narray = false
     for (var i = 0; i < array.length; i++) {
-      if (typeof array[i] !== "object" && typeof array[i] !== undefined) {
-        mArray.push(array[i])
-      } else if (typeof array[i] == "object") {
-        LiGaoWei.flattenDeep(nArray)
+      if (!Array.isArray(array[i])) {
+        newArray.push(array[i])
+      } else {
+        for (var j = 0; j < array[i].length; j++) {
+          newArray.push(array[i][j])
+          narray = true
+        }
       }
+    }
+    if (narray) {
+      return LiGaoWei.flattenDeep(newArray)
     }
     return newArray
   },
@@ -520,7 +527,98 @@ var LiGaoWei = {
       - => { 'fred': 30, 'barney': 40 }
    **/
   fromPairs: function(pairs) {
+    var newPairs = {}
+    for (var i = 0; i < pairs.length; i++) {
+      newPairs[pairs[i][0]] = pairs[i][1]
+    }
+    return newPairs
+  },
 
+  /**
+   * 作用:
+      - 调用array 和 values 中的每个元素以产生比较, 结果值是从第一数组中选择.
+   * 参数:
+      -array:要检查的数组;
+      -values:排除的值;
+      -fn:调用的函数
+   * 返回值
+      -返回一个过滤后的新数组.
+   * 例子:
+      - .differenceBy([3.1, 2.2, 1.3], [4.4, 2.5], Math.floor);
+      - => [3.1, 1.3]
+      - The `_.property` iteratee shorthand.
+      - .differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
+      - => [{ 'x': 2 }]
+   **/
+  differenceBy: function(array, values, fn) {
+    debugger;
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      for (var j = 0; j < values.length; j++) {
+        if (fn(array[i]) == fn(values[j])) {
+          array[i] = false
+        }
+      }
+      if (array[i]) {
+        newArray.push(array[i])
+      }
+    }
+    return newArray
+  },
+
+  /**
+   * 作用:
+      - 创建一个函数，当他被调用n或更多次之后将马上触发func.
+   * 参数:
+      -n:次数;
+      -func:限制执行的函数
+   * 返回值
+      -返回新的限定函数.
+   * 例子:
+      - var saves = ['profile', 'settings']; 
+      - var done = _.after(saves.length, function() {
+          console.log('done saving!');
+        }); 
+      - .forEach(saves, function(type) {
+      - asyncSave({ 'type': type, 'complete': done });
+        });
+      - => Logs 'done saving!' after the two async saves have completed.
+   **/
+  after: function(n, func) {
+    var lastTime = 0
+    return function() {
+      lastTime++
+      if (lastTime > n) {
+        return func.apply(null, arguments)
+      }
+    }
+
+  },
+
+  /**
+   * 作用:
+      - 调用次数不超过 n 次。 之后再调用这个函数，将返回一次最后调用func的结果.
+   * 参数:
+      -n:次数;
+      -func:限制执行的函数
+   * 返回值
+      -返回新的限定函数.
+   * 例子:
+      - jQuery(element).on('click', _.before(5, addContactToList));
+      - => allows adding up to 4 contacts to the list
+   **/
+  before: function(n, func) {
+    var lastTime = 0
+    var lastEnter
+    return function() {
+      lastTime++
+      if (lastTime <= n) {
+        lastEnter = func.apply(null, arguments)
+        return lastEnter
+      } else if (lastTime > n) {
+        return lastEnter
+      }
+    }
   },
 
 
