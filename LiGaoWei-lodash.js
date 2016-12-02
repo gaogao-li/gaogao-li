@@ -550,35 +550,35 @@ var LiGaoWei = {
       - .differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
       - => [{ 'x': 2 }]
    **/
-  differenceBy: function(array, values, fn) {
-    var result = []
-    var newArray = []
-    var newValues = []
-    var fnc = fn
-    if (typeof fn == "string") {
-      fnc = function(obj) {
-        return obj[fn]
-      }
-    }
-    for (var i = 0; i < array.length; i++) {
-      newArray.push(fnc(array[i]))
-    }
-    for (var i = 0; i < values.length; i++) {
-      newValues.push(fnc(values[i]))
-    }
-    for (var i = 0; i < newArray.length; i++) {
-      var arr = true
-      for (var j = 0; j < newValues.length; j++) {
-        if (newArray[i] == newValues[j]) {
-          arr = false
-        }
-      }
-      if (arr) {
-        result.push(array[i])
-      }
-    }
-    return result
-  },
+  // differenceBy: function(array, values, fn) {
+  //   var result = []
+  //   var newArray = []
+  //   var newValues = []
+  //   var fnc = fn
+  //   if (typeof fn == "string") {
+  //     fnc = function(obj) {
+  //       return obj[fn]
+  //     }
+  //   }
+  //   for (var i = 0; i < array.length; i++) {
+  //     newArray.push(fnc(array[i]))
+  //   }
+  //   for (var i = 0; i < values.length; i++) {
+  //     newValues.push(fnc(values[i]))
+  //   }
+  //   for (var i = 0; i < newArray.length; i++) {
+  //     var arr = true
+  //     for (var j = 0; j < newValues.length; j++) {
+  //       if (newArray[i] == newValues[j]) {
+  //         arr = false
+  //       }
+  //     }
+  //     if (arr) {
+  //       result.push(array[i])
+  //     }
+  //   }
+  //   return result
+  // },
 
   /**
    * 作用:
