@@ -550,35 +550,35 @@ var LiGaoWei = {
       - .differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
       - => [{ 'x': 2 }]
    **/
-  // differenceBy: function(array, values, fn) {
-  //   var result = []
-  //   var newArray = []
-  //   var newValues = []
-  //   var fnc = fn
-  //   if (typeof fn == "string") {
-  //     fnc = function(obj) {
-  //       return obj[fn]
-  //     }
-  //   }
-  //   for (var i = 0; i < array.length; i++) {
-  //     newArray.push(fnc(array[i]))
-  //   }
-  //   for (var i = 0; i < values.length; i++) {
-  //     newValues.push(fnc(values[i]))
-  //   }
-  //   for (var i = 0; i < newArray.length; i++) {
-  //     var arr = true
-  //     for (var j = 0; j < newValues.length; j++) {
-  //       if (newArray[i] == newValues[j]) {
-  //         arr = false
-  //       }
-  //     }
-  //     if (arr) {
-  //       result.push(array[i])
-  //     }
-  //   }
-  //   return result
-  // },
+  differenceBy: function(array, values, fn) {
+    var result = []
+    var newArray = []
+    var newValues = []
+    var fnc = fn
+    if (typeof fn == "string") {
+      fnc = function(obj) {
+        return obj[fn]
+      }
+    }
+    for (var i = 0; i < array.length; i++) {
+      newArray.push(fnc(array[i]))
+    }
+    for (var i = 0; i < values.length; i++) {
+      newValues.push(fnc(values[i]))
+    }
+    for (var i = 0; i < newArray.length; i++) {
+      var arr = true
+      for (var j = 0; j < newValues.length; j++) {
+        if (newArray[i] == newValues[j]) {
+          arr = false
+        }
+      }
+      if (arr) {
+        result.push(array[i])
+      }
+    }
+    return result
+  },
 
   /**
    * 作用:
@@ -594,21 +594,21 @@ var LiGaoWei = {
       -.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
       -// => [{ 'x': 2, 'y': 1 }]
    **/
-  // differenceWith: function(array, values, fn) {
-  //   var newArray = []
-  //   for (var i = 0; i < array.length; i++) {
-  //     var arr = true
-  //     for (var j = 0; j < values.length; j++) {
-  //       if (fn(array[i]) == fn(values[j])) {
-  //         arr = false
-  //       }
-  //     }
-  //     if (arr) {
-  //       newArray.push(array[i])
-  //     }
-  //   }
-  //   return newArray
-  // },
+  differenceWith: function(array, values, fn) {
+    var newArray = []
+    for (var i = 0; i < array.length; i++) {
+      var arr = true
+      for (var j = 0; j < values.length; j++) {
+        if (fn(array[i], values[j])) {
+          arr = false
+        }
+      }
+      if (arr) {
+        newArray.push(array[i])
+      }
+    }
+    return newArray
+  },
 
 
 
@@ -666,6 +666,53 @@ var LiGaoWei = {
       }
     }
   },
+
+  /**
+   * 作用:
+      - 比较两个值是否完全相等.
+   * 参数:
+      -value:用来比较的值;
+      -other:另一个用来比较的值
+   * 返回值
+      -完全相等输出true,否则输出flase.
+   * 例子:
+      -var object = { 'a': 1 };
+      -var other = { 'a': 1 }; 
+      -.isEqual(object, other);
+      -// => true 
+      -object === other;
+      -// => false
+   **/
+  isEqual: function(value, other) {
+    if (value != value && other != other) {
+      return true
+    }
+    if (value === other) {
+      return true
+    }
+    if (typeof value !== typeof other) {
+      return false
+    }
+    if (typeof value != "object" && typeof other != "object" && value !== other) {
+      return false
+    }
+    var array = []
+    for (var key in value) {
+      array.push(key)
+    }
+    for (var key in other) {
+      if (array.indexOf(key) < 0) {
+        array.push(key)
+      }
+    }
+    for (var key of array) {
+      if (!LiGaoWei.isEqual(value[key], other[key])) {
+        return false
+      }
+    }
+    return true
+  },
+
 
 
 }
